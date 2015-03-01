@@ -1,0 +1,7 @@
+RGBPatterns	KEYWORD1
+setMode	KEYWORD2
+nextMode	KEYWORD2
+getUpdateDelay	KEYWORD2
+setUpdateDelay	KEYWORD2
+update 	KEYWORD2
+Mode	KEYWORD1
