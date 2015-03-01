@@ -24,7 +24,7 @@ class SolidPattern : public Pattern {
 
 void SolidPattern::setup(){
 	if (DEBUG){ Serial.println("SolidPattern::setup"); }
-	setColour(GREEN);
+	setColour(BLUE);
 }
 
 RGB SolidPattern::update(){
@@ -34,6 +34,33 @@ RGB SolidPattern::update(){
 
 void SolidPattern::setColour(RGB colour){
 	_colour = colour;
+}
+
+class RainbowPattern : public Pattern {
+	public:
+		virtual void setup();
+		virtual RGB update();
+	private:
+		RGB _colours[7];
+		int _curColour;
+};
+
+void RainbowPattern::setup(){
+	if (DEBUG){ Serial.println("RainbowPattern::setup"); }
+	_colours[0] = RED;
+	_colours[1] = ORANGE;
+	_colours[2] = YELLOW;
+	_colours[3] = GREEN;
+	_colours[4] = BLUE;
+	_colours[5] = INDIGO;
+	_colours[6] = VIOLET;
+	_curColour = -1;
+}
+
+RGB RainbowPattern::update(){
+	if (DEBUG){ Serial.println("RainbowPattern::update"); }
+	if(++_curColour > 6) { _curColour = 0; }
+	return _colours[_curColour];
 }
 
 /*
@@ -50,10 +77,14 @@ RGBPatterns::RGBPatterns(int redPin, int greenPin, int bluePin, int updateDelay)
 	pinMode(_greenPin, OUTPUT);
 	pinMode(_bluePin, OUTPUT);
 
-    SolidPattern solidPattern;
-    solidPattern.setup();
-    _solid = &solidPattern;
-    _patterns[0] = &solidPattern;
+    SolidPattern *solid = new SolidPattern();
+    solid->setup();
+    _patterns[0] = solid;
+
+    RainbowPattern *rainbow = new RainbowPattern();
+    rainbow->setup();
+    _patterns[1] = rainbow;
+
     _currentPattern = 0;
 }
 
@@ -78,12 +109,7 @@ void RGBPatterns::setUpdateDelay(int updateDelay){
 }
 
 void RGBPatterns::update(){
-	// Pattern *p = _patterns[_currentPattern];
-	// RGB newColour = p->update();
-	// _patterns[0]->update();
-	SolidPattern solidPattern;
-    solidPattern.setup();
-    RGB colour = _solid.update();
+    RGB colour = _patterns[1]->update();
 	setLEDsColour(colour);
 	delay(_updateDelay);
 }
@@ -95,7 +121,7 @@ void RGBPatterns::setLEDsColour(int red, int green, int blue){
 }
 
 void RGBPatterns::setLEDsColour(RGB colour){
-	if (DEBUG){ printColour(colour) }
+	if (DEBUG){ printColour(colour); }
 	analogWrite(_redPin, colour.r);
 	analogWrite(_greenPin, colour.g);
 	analogWrite(_bluePin, colour.b);

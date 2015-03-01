@@ -62,8 +62,7 @@ private:
 	int _bluePin;
 	int _numLeds;
 	int _updateDelay;
-	Pattern * _solid;
-	Pattern * _patterns[1];
+	Pattern * _patterns[2];
 	int _currentPattern;
 	void setLEDsColour(int red, int green, int blue);
 	void setLEDsColour(RGB colour);
