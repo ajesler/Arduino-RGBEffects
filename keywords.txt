@@ -1,7 +1,5 @@
-RGBPatterns	KEYWORD1
-setMode	KEYWORD2
-nextMode	KEYWORD2
-getUpdateDelay	KEYWORD2
-setUpdateDelay	KEYWORD2
+RGBEffects	KEYWORD1
+setEffect	KEYWORD2
+nextEffect	KEYWORD2
 update 	KEYWORD2
-Mode	KEYWORD1
+Effect	KEYWORD1
