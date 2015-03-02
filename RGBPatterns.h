@@ -6,10 +6,15 @@ RGBPatterns - Library for making colour pattern effects with RGB LEDs.
 
 #include "Arduino.h"
 
-#define DEBUG 1
+#define DEBUG 0
+#define DEBUG2 1
 
 struct RGB {
   int r, g, b;
+};
+
+struct point {
+  int x, y, z;
 };
 
 const RGB RED = { 255, 0, 0 };
@@ -31,6 +36,7 @@ enum RGBModes {
 	MODE_FADE_RANDOM,
 	MODE_RAINBOW,
 	MODE_CUBE,
+	MODE_COUNTER_FINAL // dont use this one, just for counting
 };
 
 void printColour(RGB colour);
@@ -41,18 +47,17 @@ public:
 	virtual RGB update();
 };
 
+class SolidPattern;
+
 class RGBPatterns
 {
 
 public:
-	RGBPatterns(int redPin, int greenPin, int bluePin, int updateDelay);
+	RGBPatterns(int redPin, int greenPin, int bluePin);
 	~RGBPatterns();
 
 	void setMode(RGBModes mode);
 	void nextMode();
-
-	int getUpdateDelay();
-	void setUpdateDelay(int delay);
 
 	void update();
 
@@ -61,9 +66,10 @@ private:
 	int _greenPin;
 	int _bluePin;
 	int _numLeds;
-	int _updateDelay;
-	Pattern * _patterns[2];
+	SolidPattern *_solidPattern;
+	Pattern * _patterns[4];
 	int _currentPattern;
+	RGBModes _curMode;
 	void setLEDsColour(int red, int green, int blue);
 	void setLEDsColour(RGB colour);
 };

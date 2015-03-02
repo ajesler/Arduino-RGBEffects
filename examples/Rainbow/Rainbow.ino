@@ -1,16 +1,33 @@
 #include <RGBPatterns.h>
 
-int updateDelay = 1500;
+int redPin = 3;
+int greenPin = 5;
+int bluePin = 6;
+int updateDelay = 200;
 
-RGBPatterns rgbPatterns( 3, 5, 6, updateDelay);
+int repeatCount = 0;
+
+RGBPatterns rgbPatterns( redPin, greenPin, bluePin );
 
 void setup(){
 	Serial.begin(115200);
+
+	randomSeed(analogRead(0));
+
 	// change the default mode to rainbow
 	rgbPatterns.setMode(MODE_RAINBOW);
 }
 
 void loop(){
-	Serial.println("loop");
 	rgbPatterns.update();
+
+	repeatCount++;
+
+	if(repeatCount > 100){
+		rgbPatterns.nextMode();
+		Serial.println("nextMode");
+		repeatCount = 0;
+	}
+
+	delay(updateDelay);
 }
