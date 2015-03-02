@@ -1,6 +1,7 @@
 # RGBEffects
 
-A library for displaying colour effects using RGB LEDs. 
+A library for displaying colour effects using RGB LEDs.  
+The main motivation for writing this was to learn how to write an Arduino library, and tidy up the code for a remote controlled LED lamp project.  
 
 ## Usage
 
@@ -17,7 +18,7 @@ int bluePin = 6;
 
 int updateDelay = 200;
 
-int repeatCount = 0;
+int updateCount = 0;
 
 RGBEffects rgbEffects( redPin, greenPin, bluePin );
 
@@ -30,12 +31,12 @@ void setup(){
 void loop(){
 	rgbEffects.update();
 
-	repeatCount++;
+	updateCount++;
 
-	if(repeatCount > 100){
+	if(updateCount > 100){
 		rgbEffects.nextEffect();
-		Serial.println("nextEffect");
-		repeatCount = 0;
+		Serial.println("Changing effect.");
+		updateCount = 0;
 	}
 
 	delay(updateDelay);
@@ -68,6 +69,10 @@ The RGBEffects class has the following public API.
   Shows a solid yellow colour RGB(255,255,0)
 * `EFFECT_SOLID_PURPLE` 
   Shows a solid purple colour RGB(148,0,211) 
+* `EFFECT_SOLID_VIOLET`  
+  Shows a solid violet colour RGB(238,130,238)
+* `EFFECT_SOLID_WHITE`  
+  Shows a solid white colour RGB(255,255,255);
 * `EFFECT_RAINBOW`  
   Shows the colours of the rainbow in sequence (red, orange, yellow, green, blue, indigo, violet).
 * `EFFECT_FADE`  
@@ -77,6 +82,6 @@ The RGBEffects class has the following public API.
   
 ### Adding more effects
 
-
+Show a commit adding a new effect - random colour blink maybe?
 
 Please note, I have no experience with C++. Apologies if the source makes you weep.

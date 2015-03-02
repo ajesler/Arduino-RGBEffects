@@ -37,7 +37,6 @@ void SolidEffect::setup(){
 }
 
 rgb SolidEffect::update(){
-	if (DEBUG){ Serial.println("SolidEffect::update"); }
 	return _colour;
 }
 
@@ -70,7 +69,6 @@ void RainbowEffect::setup(){
 }
 
 rgb RainbowEffect::update(){
-	if (DEBUG){ Serial.println("RainbowEffect::update"); }
 	if(++_curColour > 6) { _curColour = 0; }
 	return _colours[_curColour];
 }
@@ -105,7 +103,6 @@ void FadeEffect::setup(){
 }
 
 rgb FadeEffect::update(){
-	if (DEBUG){ Serial.println("FadeEffect::update"); }
 
 	// Update the intensity value
 	if (_nDirection) {
@@ -184,8 +181,6 @@ void CubeEffect::setup(){
 
 rgb CubeEffect::update(){
 
-	if(DEBUG){ Serial.println("CubeEffect::update"); }
-
 	// if completed traversal, start a new one
 	if(((_dx == 0) && (_dy == 0) && (_dz == 0)) || _ccStep > 245 ){
 		_vi1 = _vi2;
@@ -245,51 +240,49 @@ RGBEffects::RGBEffects(int redPin, int greenPin, int bluePin){
 }
 
 RGBEffects::~RGBEffects(){
-	delete[] _patterns;
+	delete[] _effects;
 }
 
-void RGBEffects::setEffect(RGBEffects effect){
-	if (DEBUG){ Serial.println("RGBEffects::setEffect"); }
-
+void RGBEffects::setEffect(RGBEffectType effect){
 	setLEDsColour(OFF);
 
 	switch(effect){
 		case EFFECT_SOLID_RED:
 			_solidEffect->setColour(RED);
 			_currentEffectIndex = 0;
-			if (DEBUG2){ Serial.println("RGBEffects::setEffect SOLID_RED"); }
 			break;
 		case EFFECT_SOLID_GREEN:
 			_solidEffect->setColour(GREEN);
 			_currentEffectIndex = 0;
-			if (DEBUG2){ Serial.println("RGBEffects::setEffect SOLID_GREEN"); }
 			break;
 		case EFFECT_SOLID_BLUE:
 			_solidEffect->setColour(BLUE);
 			_currentEffectIndex = 0;
-			if (DEBUG2){ Serial.println("RGBEffects::setEffect SOLID_BLUE"); }
 			break;
 		case EFFECT_SOLID_YELLOW:
 			_solidEffect->setColour(YELLOW);
 			_currentEffectIndex = 0;
-			if (DEBUG2){ Serial.println("RGBEffects::setEffect SOLID_YELLOW"); }
 			break;
 		case EFFECT_SOLID_PURPLE:
 			_solidEffect->setColour(PURPLE);
 			_currentEffectIndex = 0;
-			if (DEBUG2){ Serial.println("RGBEffects::setEffect SOLID_PURPLE"); }
+			break;
+		case EFFECT_SOLID_VIOLET:
+			_solidEffect->setColour(VIOLET);
+			_currentEffectIndex = 0;
+			break;
+		case EFFECT_SOLID_WHITE:
+			_solidEffect->setColour(WHITE);
+			_currentEffectIndex = 0;
 			break;
 		case EFFECT_RAINBOW:
 			_currentEffectIndex = 1;
-			if (DEBUG2){ Serial.println("RGBEffects::setEffect RAINBOW"); }
 			break;
 		case EFFECT_FADE:
 			_currentEffectIndex = 2;
-			if (DEBUG2){ Serial.println("RGBEffects::setEffect FADE"); }
 			break;
 		case EFFECT_CUBE:
 			_currentEffectIndex = 3;
-			if (DEBUG2){ Serial.println("RGBEffects::setEffect CUBE"); }
 			break;
 	}
 
@@ -300,9 +293,9 @@ void RGBEffects::nextEffect(){
 	setLEDsColour(OFF);
 
 	if((int)_curEffect+1 >= EFFECT_COUNTER_FINAL){
-		_curEffect = (RGBEffects)0;
+		_curEffect = (RGBEffectType)0;
 	} else {
-		_curEffect = (RGBEffects)(_curEffect+1);
+		_curEffect = (RGBEffectType)(_curEffect+1);
 	}
 
 	setEffect(_curEffect);
@@ -314,16 +307,15 @@ void RGBEffects::update(){
 }
 
 void RGBEffects::setLEDsColour(int red, int green, int blue){
-	if (DEBUG){ printColour(red, green, blue); }
+	if (RGB_DEBUG){ printColour(red, green, blue); }
 	analogWrite(_redPin, red);
 	analogWrite(_greenPin, green);
 	analogWrite(_bluePin, blue);
 }
 
 void RGBEffects::setLEDsColour(rgb colour){
-	if (DEBUG){ printColour(colour); }
+	if (RGB_DEBUG){ printColour(colour); }
 	analogWrite(_redPin, colour.r);
 	analogWrite(_greenPin, colour.g);
 	analogWrite(_bluePin, colour.b);
 }
-

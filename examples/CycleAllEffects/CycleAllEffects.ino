@@ -6,7 +6,7 @@ int bluePin = 6;
 
 int updateDelay = 200;
 
-int repeatCount = 0;
+int updateCount = 0;
 
 RGBEffects rgbEffects( redPin, greenPin, bluePin );
 
@@ -19,12 +19,12 @@ void setup(){
 void loop(){
 	rgbEffects.update();
 
-	repeatCount++;
+	updateCount++;
 
-	if(repeatCount > 100){
+	if(updateCount > 100){
 		rgbEffects.nextEffect();
-		Serial.println("nextEffect");
-		repeatCount = 0;
+		Serial.println("Changing effect.");
+		updateCount = 0;
 	}
 
 	delay(updateDelay);
