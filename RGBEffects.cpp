@@ -1,6 +1,7 @@
 #include "Arduino.h"
 #include "RGBEffects.h"
 
+#if DEBUG_COLOURS_ENABLED
 void printColour(rgb colour){
 	Serial.print("Colour: ");
 	Serial.print(colour.r);
@@ -18,6 +19,7 @@ void printColour(int red, int green, int blue){
 	Serial.print(", "); 
 	Serial.println(blue); 
 }
+#endif
 
 /*
 SolidPattern
@@ -268,6 +270,10 @@ RGBEffects::~RGBEffects(){
 void RGBEffects::setEffect(RGBEffectType effect){
 
 	switch(effect){
+		case EFFECT_OFF:
+			_solidEffect->setColour(OFF);
+			_currentEffectIndex = 0;
+			break;
 		case EFFECT_SOLID_RED:
 			_solidEffect->setColour(RED);
 			_currentEffectIndex = 0;
@@ -314,7 +320,6 @@ void RGBEffects::setEffect(RGBEffectType effect){
 }
 
 void RGBEffects::nextEffect(){
-	setLEDsColour(OFF);
 
 	if((int)_curEffect+1 >= EFFECT_COUNTER_FINAL){
 		_curEffect = (RGBEffectType)0;
@@ -331,14 +336,18 @@ void RGBEffects::update(){
 }
 
 void RGBEffects::setLEDsColour(int red, int green, int blue){
-	if (RGB_DEBUG){ printColour(red, green, blue); }
+	#if DEBUG_COLOURS_ENABLED
+	printColour(red, green, blue);
+	#endif
 	analogWrite(_redPin, red);
 	analogWrite(_greenPin, green);
 	analogWrite(_bluePin, blue);
 }
 
 void RGBEffects::setLEDsColour(rgb colour){
-	if (RGB_DEBUG){ printColour(colour); }
+	#if DEBUG_COLOURS_ENABLED
+	printColour(colour);
+	#endif
 	analogWrite(_redPin, colour.r);
 	analogWrite(_greenPin, colour.g);
 	analogWrite(_bluePin, colour.b);

@@ -34,7 +34,6 @@ RGBEffects rgbEffects( redPin, greenPin, bluePin );
 
 void setup(){
   Serial.begin(115200);
-  randomSeed(analogRead(0));
 }
 
 void loop(){
@@ -91,28 +90,18 @@ The RGBEffects class has the following public API.
 
 ### Available Effects
 
-* `EFFECT_SOLID_RED`  
-  Shows a solid red colour RGB(255,0,0)
-* `EFFECT_SOLID_GREEN`  
-  Shows a solid green colour RGB(0,255,0)
-* `EFFECT_SOLID_BLUE`  
-  Shows a solid blue colour RGB(0,0,255) 
-* `EFFECT_SOLID_YELLOW`  
-  Shows a solid yellow colour RGB(255,255,0)
-* `EFFECT_SOLID_PURPLE`  
-  Shows a solid purple colour RGB(148,0,211) 
-* `EFFECT_SOLID_VIOLET`  
-  Shows a solid violet colour RGB(238,130,238)
-* `EFFECT_SOLID_WHITE`  
-  Shows a solid white colour RGB(255,255,255);
-* `EFFECT_RAINBOW`  
-  Shows the colours of the rainbow in sequence (red, orange, yellow, green, blue, indigo, violet).
-* `EFFECT_FADE`  
-  Fades between colours.
-* `EFFECT_CUBE`  
-  Transitions in steps between different colours defined by a cube. 
-* `EFFECT_BLINK`
-  Alternates between turning the LED off and showing blue.
+* `EFFECT_OFF` Turns the LEDs off. 
+* `EFFECT_SOLID_RED` Shows a solid red colour RGB(255,0,0)
+* `EFFECT_SOLID_GREEN` Shows a solid green colour RGB(0,255,0)
+* `EFFECT_SOLID_BLUE` Shows a solid blue colour RGB(0,0,255) 
+* `EFFECT_SOLID_YELLOW` Shows a solid yellow colour RGB(255,255,0)
+* `EFFECT_SOLID_PURPLE` Shows a solid purple colour RGB(148,0,211) 
+* `EFFECT_SOLID_VIOLET` Shows a solid violet colour RGB(238,130,238)
+* `EFFECT_SOLID_WHITE` Shows a solid white colour RGB(255,255,255);
+* `EFFECT_RAINBOW` Shows the colours of the rainbow in sequence (red, orange, yellow, green, blue, indigo, violet).
+* `EFFECT_FADE` Fades between colours.
+* `EFFECT_CUBE` Transitions in steps between different colours defined by a cube. 
+* `EFFECT_BLINK` Alternates between turning the LED off and showing blue.
   
 
 ## Adding more effects
@@ -128,6 +117,10 @@ Adding new effects is pretty simple.
 There is a commit which adds a new effect called [Blink](https://github.com/ajesler/Arduino-RGBEffects/commit/f985f01e614ff6f0f3d7ecba7096ab1712977045).
 
 If you want to share your effect, send a pull request with your changes.
+
+### Debugging effects
+
+If you want to see what colour the update call is setting, change the 0 to a 1 in the line `#define DEBUG_COLOURS_ENABLED (0)` at the top of RGBEffects.h.
 
 
 ## Backlog

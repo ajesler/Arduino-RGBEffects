@@ -6,7 +6,8 @@ RGBEffects - Library for making colour pattern effects with RGB LEDs.
 
 #include "Arduino.h"
 
-#define RGB_DEBUG 0
+// change this to 1 to print out the colours being set. See RGBEffects::setLEDsColour
+#define DEBUG_COLOURS_ENABLED (0)
 
 struct rgb {
   byte r, g, b;
@@ -30,7 +31,8 @@ const rgb OFF = { 0, 0, 0 };
 
 
 enum RGBEffectType {
-	EFFECT_SOLID_RED = 0,
+	EFFECT_OFF = 0,
+	EFFECT_SOLID_RED,
 	EFFECT_SOLID_GREEN,
 	EFFECT_SOLID_BLUE,
 	EFFECT_SOLID_YELLOW,
@@ -44,8 +46,10 @@ enum RGBEffectType {
 	EFFECT_COUNTER_FINAL // dont use this one, just for counting
 };
 
+#if DEBUG_COLOURS_ENABLED
 void printColour(rgb colour);
 void printColour(int red, int green, int blue);
+#endif
 
 class Effect {
 public:
