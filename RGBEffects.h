@@ -40,6 +40,7 @@ enum RGBEffectType {
 	EFFECT_RAINBOW,
 	EFFECT_FADE,
 	EFFECT_CUBE,
+	EFFECT_BLINK,
 	EFFECT_COUNTER_FINAL // dont use this one, just for counting
 };
 
@@ -70,7 +71,7 @@ private:
 	int _bluePin;
 	int _numLeds;
 	SolidEffect *_solidEffect; // this is ugly, but need to be able to change the colour
-	Effect * _effects[4];
+	Effect * _effects[5];
 	int _currentEffectIndex;
 	RGBEffectType _curEffect;
 	void setLEDsColour(int red, int green, int blue);

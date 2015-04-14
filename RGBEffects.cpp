@@ -206,6 +206,24 @@ rgb CubeEffect::update(){
 	return _colour;
 }
 
+class BlinkEffect : public Effect {
+	public:
+		virtual void setup();
+		virtual rgb update();
+	private:
+		byte _blinkOn;
+};
+
+void BlinkEffect::setup(){
+	_blinkOn = 1;
+}
+
+rgb BlinkEffect::update(){
+	rgb c = (_blinkOn) ? BLUE : OFF;
+	_blinkOn = !_blinkOn;
+	return c;
+}
+
 /*
 RGBEffects class
 */
@@ -287,6 +305,9 @@ void RGBEffects::setEffect(RGBEffectType effect){
 			break;
 		case EFFECT_CUBE:
 			_currentEffectIndex = 3;
+			break;
+		case EFFECT_BLINK:
+			_currentEffectIndex = 4;
 			break;
 	}
 
