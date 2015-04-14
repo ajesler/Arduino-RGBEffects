@@ -3,11 +3,23 @@
 A library for displaying colour effects using RGB LEDs.  
 The main motivation for writing this was to learn how to write an Arduino library, and tidy up the code for a remote controlled LED lamp project.  
 
+Please note I had no experience with C++ before this. Apologies if the source makes you weep. Pull requests gladly accepted.
+
+
+## Installation
+
+Assuming you are using the standard Arduino IDE, clone or download the project, then copy it into your Arduino libraries directory. For more information, see the [Arduino Libraries Guide](http://arduino.cc/en/Guide/Libraries).
+
+When the library is installed properly, it will be available in the Sketch > Import library list. 
+
+
 ## Usage
 
-RGBEffects is concerned with calculating the next colour in an effect and setting the LED pins. It is up to you to control the frequency that the `update()` method is called. The usual way to do this is use Arduinos `delay(ms)` function.
+RGBEffects is concerned with calculating the next colour in an effect and displaying that colour. It is up to you to control the frequency that the `update()` method is called. The usual way to do this is use Arduinos `delay(ms)` function.
 
-### Example Usage
+Note that you do not need to set the red, green and blue pin modes, this will be done in the rgbEffects initialisation.
+
+### Examples
 
 ```c
 #include <RGBEffects.h>
@@ -16,30 +28,48 @@ int redPin = 3;
 int greenPin = 5;
 int bluePin = 6;
 
-int updateDelay = 200;
-
 int updateCount = 0;
 
 RGBEffects rgbEffects( redPin, greenPin, bluePin );
 
 void setup(){
   Serial.begin(115200);
-
   randomSeed(analogRead(0));
 }
 
 void loop(){
   rgbEffects.update();
-
   updateCount++;
 
   // calls update 100 times before changing to the next effect.
-  if(updateCount > 100){
+  if(updateCount >= 100){
+    updateCount = 0;
     rgbEffects.nextEffect();
     Serial.println("Changing effect.");
-    updateCount = 0;
   }
 
+  // 200ms delay between each update call.
+  delay(200);
+}
+```
+
+```c
+#include <RGBEffects.h>
+
+const int redPin = 3;
+const int greenPin = 5;
+const int bluePin = 6;
+
+int updateDelay = 500;
+
+RGBEffects rgbEffects( redPin, greenPin, bluePin );
+
+void setup(){
+  rgbEffects.setEffect(EFFECT_BLINK);
+}
+
+void loop(){
+  rgbEffects.update();
   delay(updateDelay);
 }
 ```
@@ -58,7 +88,8 @@ The RGBEffects class has the following public API.
 * `update()`  
   Calculates the next colour in the effect and updates the LED.
 
-### Available Modes
+
+### Available Effects
 
 * `EFFECT_SOLID_RED`  
   Shows a solid red colour RGB(255,0,0)
@@ -80,9 +111,28 @@ The RGBEffects class has the following public API.
   Fades between colours.
 * `EFFECT_CUBE`  
   Transitions in steps between different colours defined by a cube. 
+* `EFFECT_BLINK`
+  Alternates between turning the LED off and showing blue.
   
-### Adding more effects
 
-Show a commit adding a new effect - random colour blink maybe?
+## Adding more effects
 
-Please note, I have no experience with C++. Apologies if the source makes you weep.
+Adding new effects is pretty simple. 
+
+1. Increase the size of the _effects array in RGBEffect.h
+2. Create an entry for your new effect in RGBEffectType in RGBEffects.h
+3. Create a subclass of Effect in RGBEffects.cpp
+4. Create an instance of that class in the RGBEffects constructor and add it to the _effects array in RGBEffects.cpp
+5. Add a case for your effect in the RGBEffects::setEffect method in RGBEffects.cpp
+
+There is a commit which adds a new effect called [Blink](https://github.com/ajesler/Arduino-RGBEffects/commit/f985f01e614ff6f0f3d7ecba7096ab1712977045).
+
+If you want to share your effect, send a pull request with your changes.
+
+
+## Backlog
+
+I am not planning to make many more changes to the library as for my current projects it works fine. Possible future work includes:
+
+* Refactor to reduce memory usage when running.
+* Add ability to control multiple RGB LEDs. At the moment I get around this problem by having two LEDs on a single set of pins which seems to work just swell.

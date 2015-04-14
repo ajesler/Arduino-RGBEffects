@@ -266,7 +266,6 @@ RGBEffects::~RGBEffects(){
 }
 
 void RGBEffects::setEffect(RGBEffectType effect){
-	setLEDsColour(OFF);
 
 	switch(effect){
 		case EFFECT_SOLID_RED:
