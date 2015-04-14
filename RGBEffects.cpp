@@ -219,24 +219,28 @@ RGBEffects::RGBEffects(int redPin, int greenPin, int bluePin){
 	pinMode(_greenPin, OUTPUT);
 	pinMode(_bluePin, OUTPUT);
 
-    SolidEffect *solid = new SolidEffect();
-    solid->setup();
-    _effects[0] = solid;
-    _solidEffect = solid;
+  SolidEffect *solid = new SolidEffect();
+  solid->setup();
+  _effects[0] = solid;
+  _solidEffect = solid;
 
-    RainbowEffect *rainbow = new RainbowEffect();
-    rainbow->setup();
-    _effects[1] = rainbow;
+  RainbowEffect *rainbow = new RainbowEffect();
+  rainbow->setup();
+  _effects[1] = rainbow;
 
-    FadeEffect *fade = new FadeEffect();
-    fade->setup();
-    _effects[2] = fade;
+  FadeEffect *fade = new FadeEffect();
+  fade->setup();
+  _effects[2] = fade;
 
-    CubeEffect *cube = new CubeEffect();
-    cube->setup();
-    _effects[3] = cube;
+  CubeEffect *cube = new CubeEffect();
+  cube->setup();
+  _effects[3] = cube;
 
-    _currentEffectIndex = 1;
+  BlinkEffect *blink = new BlinkEffect();
+  blink->setup();
+  _effects[4] = blink;
+
+  _currentEffectIndex = 1;
 }
 
 RGBEffects::~RGBEffects(){
@@ -302,7 +306,7 @@ void RGBEffects::nextEffect(){
 }
 
 void RGBEffects::update(){
-    rgb colour = _effects[_currentEffectIndex]->update();
+  rgb colour = _effects[_currentEffectIndex]->update();
 	setLEDsColour(colour);
 }
 

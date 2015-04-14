@@ -23,24 +23,24 @@ int updateCount = 0;
 RGBEffects rgbEffects( redPin, greenPin, bluePin );
 
 void setup(){
-	Serial.begin(115200);
+  Serial.begin(115200);
 
-	randomSeed(analogRead(0));
+  randomSeed(analogRead(0));
 }
 
 void loop(){
-	rgbEffects.update();
+  rgbEffects.update();
 
-	updateCount++;
+  updateCount++;
 
-	// calls update 100 times before changing to the next effect.
-	if(updateCount > 100){
-		rgbEffects.nextEffect();
-		Serial.println("Changing effect.");
-		updateCount = 0;
-	}
+  // calls update 100 times before changing to the next effect.
+  if(updateCount > 100){
+    rgbEffects.nextEffect();
+    Serial.println("Changing effect.");
+    updateCount = 0;
+  }
 
-	delay(updateDelay);
+  delay(updateDelay);
 }
 ```
 

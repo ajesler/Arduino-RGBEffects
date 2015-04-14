@@ -8,8 +8,6 @@ int updateDelay = 500;
 RGBEffects rgbEffects( redPin, greenPin, bluePin );
 
 void setup(){
-	randomSeed(analogRead(0));
-
 	// set the mode to rainbow
 	rgbEffects.setEffect(EFFECT_RAINBOW);
 }
