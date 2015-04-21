@@ -12,8 +12,6 @@ RGBEffects rgbEffects( redPin, greenPin, bluePin );
 
 void setup(){
 	Serial.begin(115200);
-
-	randomSeed(analogRead(0));
 }
 
 void loop(){

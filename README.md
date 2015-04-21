@@ -12,6 +12,8 @@ Assuming you are using the standard Arduino IDE, clone or download the project, 
 
 When the library is installed properly, it will be available in the Sketch > Import library list. 
 
+There are examples included as part of the library. Once the library is installed, the examples can be viewed in File > Examples > RGBEffects > ...
+
 
 ## Usage
 
